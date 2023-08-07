@@ -86,8 +86,8 @@ for number in range(1, nr_numbers + 1):
 
 random_password = list(password)
 random.shuffle(random_password)
-
 shuffled_password = ""
+
 for char in random_password:
     shuffled_password += char
 
