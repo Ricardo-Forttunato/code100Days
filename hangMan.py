@@ -1,25 +1,109 @@
-import random  
+import random
 
-word_list = ["ardvark", "baboon", "camel"]  # Uma variavel tipo "lista" contendo as palavras a serem utilizadas no jogo.
+stages = ['''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+========
+''' ,'''
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+========
+''', '''
+  +---+
+  |   |
+  O   |
+  |\  |
+      |
+      |
+========
+''', '''
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+========
+''', '''
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+========
+''', '''
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+========
+''']
+
+logo = ''' 
+ _                                             
+| |                                            
+| |__   __ _ _ __   __ _ _ __ ___   __ _ _ __  
+| '_ \ / _` | '_ \ / _` | '_ ` _ \ / _` | '_ \ 
+| | | | (_| | | | | (_| | | | | | | (_| | | | |
+|_| |_|\__,_|_| |_|\__, |_| |_| |_|\__,_|_| |_|
+                    __/ |                      
+                   |___/    
+'''
+word_list = ["ardvark", "baboon", "camel", "infinite", "sunshine", "omelet", "sugar", "water"]
 
 chosen_word = random.choice(word_list)
+word_length = len(chosen_word)
 
-display = []    #Display é uma variavel tipo lista que recebera o caracteres que formarão a palavras escolhida na variavel chosen_word. 
+end_of_game = False
+lives = 6
 
-print(f"The solutiom word is {chosen_word}")
+print(logo)
 
-guess = input("Guess a letter: ").lower()
-
-word_lenght = chosen_word   # Uma variavel tipo primitiva usada para receber o valor da variavel chosen_word.
-
-# O primeiro loop for itera sobre a variavel word_lenght separando cada caracter da varavel letter.
-for letter in word_lenght:  
+display = []
+for _ in range(word_length):
     display += "_"
 
-# O segundo loop for pega a posição de cada caracter usando como base o valor "tamanho" da variavel word_lenght.
-for position in range(len(word_lenght)): 
-    letter = word_lenght[position]
-    if letter == guess:
-        display[position] = letter
+while not end_of_game:
+    guess = input("Guess a letter: ").lower()
+    if guess in display:
+        print(f"You've already guessed {guess}")
+    for position in range(word_length):
+        letter = chosen_word[position]
+        if letter == guess:
+            display[position] = letter
+    if guess not in chosen_word:
+        print(f"You guessed {guess}, that's not in the word. You lose a life")
 
-print(display)
+        lives -= 1
+        if lives == 0:
+            end_of_game = True
+            print("You lose.")
+
+
+    print(f"{' '.join(display)}")
+
+    if "_" not in display:
+        end_of_game == True
+        print("You win.")
+        break   
+    
+    print(stages[lives])
